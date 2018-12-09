@@ -27,7 +27,7 @@ from maskrcnn_benchmark.utils.miscellaneous import mkdir
 
 
 def train(cfg, local_rank, distributed):
-    model = build_detection_model(cfg)
+    model = build_detection_model(cfg)  # TODO modify weight loading to use pretrained detector weights
     device = torch.device(cfg.MODEL.DEVICE)
     model.to(device)
 
@@ -50,10 +50,10 @@ def train(cfg, local_rank, distributed):
     checkpointer = DetectronCheckpointer(
         cfg, model, optimizer, scheduler, output_dir, save_to_disk
     )
-    extra_checkpoint_data = checkpointer.load(cfg.MODEL.WEIGHT)
+    extra_checkpoint_data = checkpointer.load(cfg.MODEL.WEIGHT, init=cfg.MODEL.WEIGHT_RM_CLS)
     arguments.update(extra_checkpoint_data)
 
-    data_loader = make_data_loader(
+    data_loader = make_data_loader(  # modify data loader
         cfg,
         is_train=True,
         is_distributed=distributed,

@@ -21,13 +21,24 @@ class DatasetCatalog(object):
             "coco/val2014",
             "coco/annotations/instances_valminusminival2014.json",
         ),
+        "coco_bbt_100_no_people_train": (
+            "/net/bvisionserver4/playpen1/jielei/data/preprocessed_video_data/tvqa_video_frames_fps3_hq",
+            "tvqa_bbt/annotations_100_no_people/bbt_train_detection_annotation_coco_format_thd100.json"
+        ),
+        "coco_bbt_100_no_people_val": (
+            "/net/bvisionserver4/playpen1/jielei/data/preprocessed_video_data/tvqa_video_frames_fps3_hq",
+            "tvqa_bbt/annotations_100_no_people/bbt_valid_detection_annotation_coco_format_thd100.json"
+        ),
+        "coco_bbt_100_no_people_test": (
+            "/net/bvisionserver4/playpen1/jielei/data/preprocessed_video_data/tvqa_video_frames_fps3_hq",
+            "tvqa_bbt/annotations_100_no_people/bbt_test_detection_annotation_coco_format_thd100.json"
+        ),
         "voc_2007_trainval": ("voc/VOC2007", 'trainval'),
         "voc_2007_test": ("voc/VOC2007", 'test'),
         "voc_2012_train": ("voc/VOC2012", 'train'),
         "voc_2012_trainval": ("voc/VOC2012", 'trainval'),
         "voc_2012_val": ("voc/VOC2012", 'val'),
         "voc_2012_test": ("voc/VOC2012", 'test'),
-
     }
 
     @staticmethod

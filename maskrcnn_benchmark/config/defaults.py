@@ -30,6 +30,8 @@ _C.MODEL.META_ARCHITECTURE = "GeneralizedRCNN"
 # the path in paths_catalog. Else, it will use it as the specified absolute
 # path
 _C.MODEL.WEIGHT = ""
+# remove num_cls related layers for finetuning
+_C.MODEL.WEIGHT_RM_CLS = False
 
 
 # -----------------------------------------------------------------------------

@@ -14,7 +14,7 @@ from .collate_batch import BatchCollator
 from .transforms import build_transforms
 
 
-def build_dataset(dataset_list, transforms, dataset_catalog, is_train=True):
+def build_dataset(dataset_list, transforms, dataset_catalog, is_train=True, load_mask=True):
     """
     Arguments:
         dataset_list (list[str]): Contains the names of the datasets, i.e.,
@@ -23,6 +23,7 @@ def build_dataset(dataset_list, transforms, dataset_catalog, is_train=True):
         dataset_catalog (DatasetCatalog): contains the information on how to
             construct a dataset.
         is_train (bool): whether to setup the dataset for training or testing
+        load_mask (bool):
     """
     if not isinstance(dataset_list, (list, tuple)):
         raise RuntimeError(
@@ -37,6 +38,7 @@ def build_dataset(dataset_list, transforms, dataset_catalog, is_train=True):
         # during training
         if data["factory"] == "COCODataset":
             args["remove_images_without_annotations"] = is_train
+            args["load_mask"] = load_mask
         if data["factory"] == "PascalVOCDataset":
             args["use_difficult"] = not is_train
         args["transforms"] = transforms
@@ -150,8 +152,8 @@ def make_data_loader(cfg, is_train=True, is_distributed=False, start_iter=0):
     DatasetCatalog = paths_catalog.DatasetCatalog
     dataset_list = cfg.DATASETS.TRAIN if is_train else cfg.DATASETS.TEST
 
-    transforms = build_transforms(cfg, is_train)
-    datasets = build_dataset(dataset_list, transforms, DatasetCatalog, is_train)
+    transforms = build_transforms(cfg, is_train)  # resize/normalize/... image
+    datasets = build_dataset(dataset_list, transforms, DatasetCatalog, is_train, cfg.MODEL.MASK_ON)
 
     data_loaders = []
     for dataset in datasets:
